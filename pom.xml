@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.silnith</groupId>
+	<artifactId>threading</artifactId>
+    <packaging>pom</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Threading</name>
+	<description>A project to explore the scalability of threading and blocking I/O.</description>
+	<url>https://github.com/silnith/threading</url>
+	<inceptionYear>2021</inceptionYear>
+	<scm>
+		<url>https://github.com/silnith/threading</url>
+		<connection>scm:git:https://github.com/silnith/threading.git</connection>
+		<developerConnection>scm:git:ssh://github.com/silnith/threading.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+	<modules>
+		<module>threading-sync</module>
+	</modules>
+	<dependencyManagement></dependencyManagement>
+	<dependencies></dependencies>
+	<build></build>
+	<reporting></reporting>
+</project>
