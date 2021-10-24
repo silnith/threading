@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,10 +35,16 @@ public class Server implements Runnable {
     public void run() {
         final String sourceMethod = "run";
         LOGGER.entering(SOURCE_CLASS, sourceMethod);
+        final Duration timeout = Duration.ofSeconds(1);
         try (final ServerSocket serverSocket = this.serverSocket) {
+            serverSocket.setSoTimeout((int) timeout.toMillis());
             while (!Thread.interrupted()) {
-                final Socket socket = serverSocket.accept();
-                executor.execute(new Worker(socket));
+                try {
+                    final Socket socket = serverSocket.accept();
+                    executor.execute(new Worker(socket));
+                } catch (final SocketTimeoutException e) {
+                    LOGGER.logp(Level.INFO, SOURCE_CLASS, sourceMethod, "SocketTimeoutException", e);
+                }
             }
         } catch (final IOException e) {
             LOGGER.logp(Level.WARNING, SOURCE_CLASS, sourceMethod, "IOException", e);
@@ -55,14 +63,23 @@ public class Server implements Runnable {
         final ExecutorService executorService = Executors.newFixedThreadPool(Client.CONCURRENCY);
         final Server server = new Server(serverSocket, executorService);
         final Client client = new Client(inetAddress, localPort);
-        
+
+        System.out.println("Starting test.");
+
         final Thread serverThread = new Thread(server);
         final Thread clientThread = new Thread(client);
-        
+
         serverThread.start();
         clientThread.start();
-        
+
+        System.out.println("Waiting for test to end.");
+
         clientThread.join();
+        System.out.println("Client thread terminated.");
+        serverThread.interrupt();
+        serverThread.join();
+        executorService.shutdown();
+        System.out.println("Executor service shut down.");
     }
 
 }

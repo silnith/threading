@@ -39,7 +39,7 @@ public class Worker implements Runnable {
         } catch (final IOException e) {
             LOGGER.logp(Level.WARNING, SOURCE_CLASS, sourceMethod, "IOException", e);
         } finally {
-            LOGGER.logp(Level.INFO, SOURCE_CLASS, sourceMethod, "Shutting down worker.");
+            LOGGER.logp(Level.FINE, SOURCE_CLASS, sourceMethod, "Shutting down worker.");
         }
         LOGGER.exiting(SOURCE_CLASS, sourceMethod);
     }

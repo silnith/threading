@@ -58,6 +58,7 @@ public final class Client implements Runnable {
         } catch (IOException e) {
             LOGGER.logp(Level.WARNING, SOURCE_CLASS, sourceMethod, "IOException", e);
         } finally {
+            LOGGER.logp(Level.INFO, SOURCE_CLASS, sourceMethod, "Shutting down client.");
             for (final Socket socket : sockets) {
                 try {
                     socket.close();
@@ -65,7 +66,7 @@ public final class Client implements Runnable {
                     LOGGER.logp(Level.WARNING, SOURCE_CLASS, sourceMethod, "IOException", e);
                 }
             }
-            LOGGER.logp(Level.INFO, SOURCE_CLASS, sourceMethod, "Shutting down client.");
+            LOGGER.logp(Level.INFO, SOURCE_CLASS, sourceMethod, "Sockets closed.");
         }
         
         LOGGER.exiting(SOURCE_CLASS, sourceMethod);
