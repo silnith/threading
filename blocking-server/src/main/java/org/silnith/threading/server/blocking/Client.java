@@ -13,12 +13,6 @@ import javax.net.SocketFactory;
 
 public final class Client implements Runnable {
 
-    public static final int CONCURRENCY = 50;
-    
-    public static final int MESSAGE_SIZE = 1024;
-    
-    public static final int MESSAGES = 1024;
-
     private static final String SOURCE_CLASS = Client.class.getName();
 
     private static final Logger LOGGER = Logger.getLogger(SOURCE_CLASS);
@@ -32,7 +26,7 @@ public final class Client implements Runnable {
     public Client(InetAddress inetAddress, int localPort) {
         this.inetAddress = inetAddress;
         this.localPort = localPort;
-        buffer = new byte[MESSAGE_SIZE];
+        buffer = new byte[Server.MESSAGE_SIZE];
     }
 
     @Override
@@ -43,12 +37,12 @@ public final class Client implements Runnable {
         final List<Socket> sockets = new ArrayList<>();
         try {
             final SocketFactory socketFactory = SocketFactory.getDefault();
-            for (int i = 0; i < CONCURRENCY; i++) {
+            for (int i = 0; i < Server.CONCURRENCY; i++) {
                 final Socket socket = socketFactory.createSocket(inetAddress, localPort);
                 sockets.add(socket);
             }
             
-            for (int message = 0; message < MESSAGES; message++) {
+            for (int message = 0; message < Server.MESSAGES; message++) {
                 LOGGER.logp(Level.INFO, SOURCE_CLASS, sourceMethod, "Sending message {0} on all sockets.", message);
                 for (final Socket socket : sockets) {
                     final OutputStream outputStream = socket.getOutputStream();

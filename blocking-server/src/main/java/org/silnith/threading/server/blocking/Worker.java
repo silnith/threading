@@ -9,8 +9,6 @@ import java.util.logging.Logger;
 
 public class Worker implements Runnable {
 
-    public static final int BUFFER_SIZE = 1024;
-
     private static final String SOURCE_CLASS = Worker.class.getName();
 
     private static final Logger LOGGER = Logger.getLogger(SOURCE_CLASS);
@@ -22,7 +20,7 @@ public class Worker implements Runnable {
     public Worker(final Socket socket) {
         super();
         this.socket = socket;
-        buffer = new byte[BUFFER_SIZE];
+        buffer = new byte[Server.MESSAGE_SIZE];
     }
 
     @Override

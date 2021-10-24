@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,6 +17,12 @@ import javax.net.ServerSocketFactory;
 
 
 public class Server implements Runnable {
+
+    public static final int CONCURRENCY = 64;
+
+    public static final int MESSAGE_SIZE = 1024 * 1024;
+
+    public static final int MESSAGES = 10_000;
 
     private static final String SOURCE_CLASS = Server.class.getName();
 
@@ -43,7 +50,7 @@ public class Server implements Runnable {
                     final Socket socket = serverSocket.accept();
                     executor.execute(new Worker(socket));
                 } catch (final SocketTimeoutException e) {
-                    LOGGER.logp(Level.INFO, SOURCE_CLASS, sourceMethod, "SocketTimeoutException", e);
+                    LOGGER.logp(Level.FINE, SOURCE_CLASS, sourceMethod, "SocketTimeoutException", e);
                 }
             }
         } catch (final IOException e) {
@@ -60,7 +67,8 @@ public class Server implements Runnable {
         serverSocket.bind(null);
         final InetAddress inetAddress = serverSocket.getInetAddress();
         final int localPort = serverSocket.getLocalPort();
-        final ExecutorService executorService = Executors.newFixedThreadPool(Client.CONCURRENCY);
+        final ExecutorService executorService = Executors.newFixedThreadPool(CONCURRENCY);
+        executorService.invokeAll(Collections.nCopies(CONCURRENCY, () -> null));
         final Server server = new Server(serverSocket, executorService);
         final Client client = new Client(inetAddress, localPort);
 
