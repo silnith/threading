@@ -22,6 +22,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	<modules>
+        <module>blocking-server</module>
 		<module>threading-sync</module>
 	</modules>
 	<dependencyManagement></dependencyManagement>
