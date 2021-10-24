@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -34,6 +35,7 @@ public final class Client implements Runnable {
         final String sourceMethod = "run";
         LOGGER.entering(SOURCE_CLASS, sourceMethod);
 
+        long totalBytes = 0;
         final List<Socket> sockets = new ArrayList<>();
         try {
             final SocketFactory socketFactory = SocketFactory.getDefault();
@@ -47,6 +49,7 @@ public final class Client implements Runnable {
                 for (final Socket socket : sockets) {
                     final OutputStream outputStream = socket.getOutputStream();
                     outputStream.write(buffer);
+                    totalBytes += buffer.length;
                 }
             }
         } catch (IOException e) {
@@ -62,6 +65,7 @@ public final class Client implements Runnable {
             }
             LOGGER.logp(Level.INFO, SOURCE_CLASS, sourceMethod, "Sockets closed.");
         }
+        System.out.println(MessageFormat.format("Total bytes written: {0}", totalBytes));
         
         LOGGER.exiting(SOURCE_CLASS, sourceMethod);
     }
