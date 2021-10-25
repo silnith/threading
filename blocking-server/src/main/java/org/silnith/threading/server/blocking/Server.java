@@ -83,7 +83,7 @@ public class Server implements Runnable {
         System.out.println("Starting test.");
 
         final Thread serverThread = new Thread(new Server(serverSocket, executorService, byteCounter));
-        final Thread clientThread = new Thread(new Client(serverSocket.getInetAddress(), serverSocket.getLocalPort()));
+        final Thread clientThread = new Thread(new Client(serverSocket.getLocalSocketAddress()));
         
         final Instant start = Instant.now();
 

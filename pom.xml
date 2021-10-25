@@ -11,6 +11,12 @@
 	<description>A project to explore the scalability of threading and blocking I/O.</description>
 	<url>https://github.com/silnith/threading</url>
 	<inceptionYear>2021</inceptionYear>
+	<licenses>
+		<license>
+			<name>GNU Affero General Public License v3</name>
+			<url>http://www.spdx.org/licenses/AGPL-3.0</url>
+		</license>
+	</licenses>
 	<scm>
 		<url>https://github.com/silnith/threading</url>
 		<connection>scm:git:https://github.com/silnith/threading.git</connection>

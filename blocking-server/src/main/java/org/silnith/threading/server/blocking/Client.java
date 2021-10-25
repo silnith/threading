@@ -2,8 +2,8 @@ package org.silnith.threading.server.blocking;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +18,13 @@ public final class Client implements Runnable {
 
     private static final Logger LOGGER = Logger.getLogger(SOURCE_CLASS);
 
-    private final InetAddress inetAddress;
-
-    private final int localPort;
+    private final SocketAddress socketAddress;
 
     private final byte[] buffer;
 
-    public Client(InetAddress inetAddress, int localPort) {
-        this.inetAddress = inetAddress;
-        this.localPort = localPort;
+    public Client(SocketAddress socketAddress) {
+        super();
+        this.socketAddress = socketAddress;
         buffer = new byte[Server.MESSAGE_SIZE];
     }
 
@@ -40,7 +38,8 @@ public final class Client implements Runnable {
         try {
             final SocketFactory socketFactory = SocketFactory.getDefault();
             for (int i = 0; i < Server.CONCURRENCY; i++) {
-                final Socket socket = socketFactory.createSocket(inetAddress, localPort);
+                final Socket socket = socketFactory.createSocket();
+                socket.connect(socketAddress);
                 sockets.add(socket);
             }
             
