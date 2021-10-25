@@ -22,9 +22,11 @@ public class Server implements Runnable {
 
     public static final int CONCURRENCY = 1024;
 
-    public static final int MESSAGE_SIZE = 1024 * 1024;
+    public static final int MESSAGE_SIZE = 1024;
 
     public static final int MESSAGES = 1_000;
+    
+    public static final int READ_SIZE = 1024 * 1024;
 
     private static final String SOURCE_CLASS = Server.class.getName();
 

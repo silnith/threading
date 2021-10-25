@@ -23,7 +23,7 @@ public class Worker implements Runnable {
     public Worker(final Socket socket, final AtomicLong atomicLong) {
         super();
         this.socket = socket;
-        buffer = new byte[Server.MESSAGE_SIZE];
+        buffer = new byte[Server.READ_SIZE];
         this.atomicLong = atomicLong;
     }
 
